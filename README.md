@@ -1,12 +1,12 @@
 # To Run
-The vue UI has been "compiled" and placed into the /plubic directory of the 
+The vue UI has been "compiled" and placed into the /public directory of the 
 express/node.js backend.
 
-This was to avoid the need or running two webservers.
+This was to avoid the need for running two webservers.
 
-in the /express-backend directory run "npm run dev"
+In the /express-backend directory, run "npm run dev"
 
-# Dependancy
+# Dependency
 
 You will need a get a copy of auth_config.json. (or you can make your own)
 
@@ -14,7 +14,7 @@ You will need a get a copy of auth_config.json. (or you can make your own)
 # Log In
 If you are logged in via Auth0, you can change the users location on the front page.
 
-This was to show a simple authenication mechanic without the need of authorization.
+This was to show a simple authentication mechanic without the need of authorization.
 
 However with more time I can add more features.
 
