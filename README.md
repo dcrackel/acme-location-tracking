@@ -1,3 +1,25 @@
+# To Run
+The vue UI has been "compiled" and placed into the /plubic directory of the 
+express/node.js backend.
+
+This was to avoid the need or running two webservers.
+
+in the /express-backend directory run "npm run dev"
+
+# Dependancy
+
+You will need a get a copy of auth_config.json. (or you can make your own)
+
+
+# Log In
+If you are logged in via Auth0, you can change the users location on the front page.
+
+This was to show a simple authenication mechanic without the need of authorization.
+
+However with more time I can add more features.
+
+
+
 # Objective
 Build a simple web app, demo it, and discuss it with team at interview.
 
