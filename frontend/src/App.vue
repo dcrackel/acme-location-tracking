@@ -23,30 +23,40 @@ export default {
       people: []
     }
   },
-  created() {
-      this.people = [
-        {
-          _id : 1,
-          name : "John Doe",
-          email : "johndoe@gmail.com",
-          location: "home",
-          picture: "https://randomuser.me/api/portraits/men/10.jpg"
-        },
-        {
-          _id : 2,
-          name : "Stella Staplenaple",
-          email : "StellStaplenapple@gmail.com",
-          location: "office",
-          picture: "https://randomuser.me/api/portraits/women/8.jpg"
-        },
-        {
-          _id : 3,
-          name : "Bob Gritter",
-          email : "bobgritter@gmail.com",
-          location: "lab",
-          picture: "https://randomuser.me/api/portraits/men/22.jpg"
-        },
-      ];
+  methods: {
+    async fetchPeople(){
+      console.log('fetching')
+      const res = await fetch('http://localhost:5000/api/people/')
+      console.log(res)
+      const data = await res.json()
+      return data
+    }
+  },
+  async created() {
+    this.people = await this.fetchPeople();
+    //[
+    //   {
+    //     _id : 1,
+    //     name : "John Doe",
+    //     email : "johndoe@gmail.com",
+    //     location: "home",
+    //     picture: "https://randomuser.me/api/portraits/men/10.jpg"
+    //   },
+    //   {
+    //     _id : 2,
+    //     name : "Stella Staplenaple",
+    //     email : "StellStaplenapple@gmail.com",
+    //     location: "office",
+    //     picture: "https://randomuser.me/api/portraits/women/8.jpg"
+    //   },
+    //   {
+    //     _id : 3,
+    //     name : "Bob Gritter",
+    //     email : "bobgritter@gmail.com",
+    //     location: "lab",
+    //     picture: "https://randomuser.me/api/portraits/men/22.jpg"
+    //   },
+    // ];
   }
 }
 </script>
