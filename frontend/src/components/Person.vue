@@ -6,9 +6,9 @@
         <div class="personname">{{person.name}}</div>
         <div class="personlocation">Is working from <b>
 
-          <div class="dropdown">
+          <div class="dropdown" >
             <button :class="getColor(person.location)">{{ person.location }}</button>
-            <div class="dropdown-content" >
+            <div class="dropdown-content" v-if="$auth.isAuthenticated">
               <a v-for="item in items" :key="item.id" @click="$emit('change-location', {pid: person._id, loc: item.title})">{{item.title}}</a>
             </div>
           </div>
