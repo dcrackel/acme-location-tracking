@@ -30,11 +30,12 @@ router.post('/', (req, res) => {
         {
             name: req.body.name,
             email: req.body.email,
-            status: 'active'
+            location: req.body.location,
+            picture: req.body.picture
         });
 
-    if(!req.body.name || !req.body.email){
-        return res.status(400).json({msg: 'please include a name and email'});
+    if(!req.body.name || !req.body.email || req.body.location || req.body.picture){
+        return res.status(400).json({msg: 'please include a name, email, location, and picture url'});
     }
 
     newPeople.save({newPeople}, (err, result) => {
@@ -50,11 +51,10 @@ router.put('/:id', async (req, res) => {
 
     if (found) {
         const updMember = req.body;
-        console.log("found found to update");
-        console.log(found);
-
         found.name = updMember.name ? updMember.name : found.name;
         found.email = updMember.email ? updMember.email : found.name;
+        found.location = updMember.location ? updMember.location : found.location;
+        found.picture = updMember.picture ? updMember.picture : found.picture;
 
         found.save({found}, (err, result) => {
             if (err) return res.status(400).json({msg: 'Error saving member data'});

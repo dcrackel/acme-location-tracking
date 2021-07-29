@@ -1,10 +1,10 @@
 <template>
   <div class="topborder">
     <div class="roaster">
-      <div class="rostertext">Today's Roaster</div>
+      <div class="rostertext">Today's Roster</div>
       <div class="peoplecontainer">
-        <div class="peoplebox" v-for="person in people" :key="person.id">
-          <Person :person="person" />
+        <div class="peoplebox" v-for="person in people" :key="person._id">
+          <Person :person="person" @change-location="reEmit" />
         </div>
       </div>
     </div>
@@ -21,6 +21,11 @@ export default {
   },
   components: {
     Person
+  },
+  methods: {
+    reEmit(obj){
+      this.$emit('change-location',{pid: obj.pid, loc: obj.loc})
+    }
   }
 }
 </script>

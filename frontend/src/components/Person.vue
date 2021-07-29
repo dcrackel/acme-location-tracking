@@ -4,7 +4,18 @@
       <img class="personimg" :src="person.picture" /><i :class="getIcon(person.location)"></i>
       <div class="persontextbox">
         <div class="personname">{{person.name}}</div>
-        <div class="personlocation">Is working from <b>{{person.location}}</b></div>
+        <div class="personlocation">Is working from <b>
+
+          <div class="dropdown">
+            <button :class="getColor(person.location)">{{ person.location }}</button>
+            <div class="dropdown-content" >
+              <a v-for="item in items" :key="item.id" @click="$emit('change-location', {pid: person._id, loc: item.title})">{{item.title}}</a>
+            </div>
+          </div>
+
+        </b>
+        </div>
+
       </div>
     </div>
   </div>
@@ -17,8 +28,8 @@ export default {
     person: Object
   },
   methods: {
-    getIcon(locationname){
-      switch(locationname){
+    getIcon(locationname) {
+      switch (locationname) {
         case "home":
           return "fas fa-home smallicon lightblue";
         case "lab":
@@ -26,8 +37,42 @@ export default {
         case "office":
           return "fas fa-building smallicon lightpurple";
       }
-      console.log(locationname);
+    },
+    getColor(locationname){
+        switch(locationname){
+          case "home":
+            return "dropbtn lightblue";
+          case "lab":
+            return "dropbtn lightgreen";
+          case "office":
+            return "dropbtn lightpurple";
+        }
+    },
+    onChange(key) {
+      this.newTodoText = "id:"+this.items[key-1].id+"/title:"+this.items[key-1].title;
     }
+  },
+  data() {
+    return {
+      newTodoText: '',
+      items: []
+    }
+  },
+  created() {
+    this.items = [
+      {
+        id: 1,
+        title: 'home',
+      },
+      {
+        id: 2,
+        title: 'office',
+      },
+      {
+        id: 3,
+        title: 'lab'
+      }
+    ]
   }
 }
 </script>
@@ -59,15 +104,15 @@ export default {
 }
 
 .lightblue {
-  background: #cce4ee;
+  background: #5B919E;
 }
 
 .lightgreen {
-  background: #bce3b7;
+  background: #6CBF82;
 }
 
 .lightpurple {
-  background: #BDBFDF;
+  background: #8967AC;
 }
 
 .persontextbox{
@@ -85,4 +130,40 @@ export default {
 .personlocation {
   font-size: 12pt;
 }
+
+.dropbtn {
+  color: white;
+  padding: 7px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 10px;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
 </style>

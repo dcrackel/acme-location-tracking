@@ -2,7 +2,7 @@
   <div>
     <Nav />
     <Header />
-    <People :people="people" />
+    <People :people="people" @change-location="changeLocation"/>/>
   </div>
 </template>
 
@@ -25,38 +25,36 @@ export default {
   },
   methods: {
     async fetchPeople(){
-      console.log('fetching')
       const res = await fetch('http://localhost:5000/api/people/')
-      console.log(res)
-      const data = await res.json()
+      const data = res.json()
       return data
+    },
+    async fetchPerson(id){
+      const res = await fetch(`http://localhost:5000/api/people/${id}`)
+      const data = res.json()
+      return data
+    },
+    async changeLocation(obj) {
+      console.log(`changeLocation: ${obj.pid} ${obj.loc}`)
+      const person = await this.fetchPerson(obj.pid)
+      const updPerson = {...person[0], location: obj.loc}
+
+      console.log(`CALLING UPDATE...`)
+      const res = await fetch(`http://localhost:5000/api/people/${updPerson._id}`, {
+        method: 'PUT',
+        headers: {
+          'content-type':'application/json',
+        },
+        body: JSON.stringify(updPerson)
+      })
+      const data = await res.json()
+
+      this.people = this.people.map((person) => (person._id === data.found._id)
+         ? {...person, location: data.found.location} : person)
     }
   },
   async created() {
     this.people = await this.fetchPeople();
-    //[
-    //   {
-    //     _id : 1,
-    //     name : "John Doe",
-    //     email : "johndoe@gmail.com",
-    //     location: "home",
-    //     picture: "https://randomuser.me/api/portraits/men/10.jpg"
-    //   },
-    //   {
-    //     _id : 2,
-    //     name : "Stella Staplenaple",
-    //     email : "StellStaplenapple@gmail.com",
-    //     location: "office",
-    //     picture: "https://randomuser.me/api/portraits/women/8.jpg"
-    //   },
-    //   {
-    //     _id : 3,
-    //     name : "Bob Gritter",
-    //     email : "bobgritter@gmail.com",
-    //     location: "lab",
-    //     picture: "https://randomuser.me/api/portraits/men/22.jpg"
-    //   },
-    // ];
   }
 }
 </script>
