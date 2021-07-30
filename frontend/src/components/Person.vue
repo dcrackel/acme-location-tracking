@@ -20,8 +20,13 @@
 
         </div>
       </div>
-      <div v-if="$auth.isAuthenticated" class="deleteperson" @click="$emit('delete-person', person)">
-        <i class="fas fa-times-circle"></i>
+      <div v-if="$auth.isAuthenticated" class="iconbox" >
+          <div :class="person.admin ? 'isAdmin' : 'makeAdmin'" @click="$emit('make-admin', person)">
+            <i class="fas fa-users-cog"></i>
+          </div>
+          <div class="deleteperson" @click="$emit('delete-person', person)">
+            <i class="fas fa-times-circle"></i>
+          </div>
       </div>
     </div>
 
@@ -124,6 +129,7 @@ export default {
 input {border:0;outline:0;}
 input:focus {outline:none!important;}
 
+
 .personnameedit
 {
   line-height: 40px;
@@ -136,7 +142,7 @@ input:focus {outline:none!important;}
   color: #efefef;
   margin: 6px 0px 6px 0px;
   transition: all .4s ease;
-  width: 80%;
+  width: 85%;
 }
 
 .personemailedit
@@ -163,17 +169,59 @@ input:focus {outline:none!important;}
 }
 
 .lightpurple {
-  background: #8967AC;
+  background: #9889C1;
+}
+
+.iconbox {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+}
+
+.makeAdmin {
+  display: block;
+  color: #705EA3;
+  width: 31px;
+  height: 30px;
+  margin: -6px 0px 0px 0px;
+  padding: 3px 0px 0px 0px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.makeAdmin:hover {
+  color: #dcdcdc;
+  background: #38246F;
+}
+
+.isAdmin {
+  display: block;
+  color: #dcdcdc;
+  background: #9889C1;
+  width: 31px;
+  height: 30px;
+  margin: -6px 0px 0px 0px;
+  padding: 3px 0px 0px 0px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.isAdmin:hover {
+  color: #dcdcdc;
+  background: #38246F;
 }
 
 .deleteperson {
   display: block;
   color: #C2494F;
-  width: 20px;
-  height: 20px;
-  margin: -6px 0px 0px 0px;
-  padding: 0px 0px 0px 0px;
+  width: 30px;
+  height: 30px;
+  margin: -6px 0px 0px 4px;
+  padding: 3px 0px 0px 0px;
   cursor: pointer;
+  border-radius: 50%;
+}
+.deleteperson:hover {
+  color: #dcdcdc;
+  background: #9F262C;
 }
 
 .cursor {
@@ -185,7 +233,7 @@ input:focus {outline:none!important;}
   border-radius: 5px;
   padding: 0 5px;
   /*transition: all .4s ease;*/
-  width: 80%;
+  width: 90%;
 }
 
 .persontextbox{
@@ -199,7 +247,7 @@ input:focus {outline:none!important;}
 .personname {
   font-size: 20pt;
   margin: 0px 0px 0px 0px;
-  width: 80%;
+  width: 82%;
 }
 
 .personemail {

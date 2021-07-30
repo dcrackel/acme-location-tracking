@@ -24,6 +24,18 @@ const peopleSchema = mongoose.Schema({
     picture: {
         type: String,
         required: true
+    },
+    editname: {
+        type: Boolean,
+        default: false
+    },
+    editemail: {
+        type: Boolean,
+        default: false
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 

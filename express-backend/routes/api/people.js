@@ -47,7 +47,8 @@ router.post('/', (req, res) => {
 
 // update single member
 router.put('/:id', async (req, res) => {
-    const found = await Person.findOne({_id: new ObjectId(req.params.id)});
+    if (req.params.id === 'undefined')  return res.status(400).json({msg: 'id is invalid'});
+    const found = await Person.findOne({_id: new ObjectId(String(req.params.id))});
 
     if (found) {
         const updMember = req.body;
@@ -55,10 +56,19 @@ router.put('/:id', async (req, res) => {
         found.email = updMember.email ? updMember.email : found.name;
         found.location = updMember.location ? updMember.location : found.location;
         found.picture = updMember.picture ? updMember.picture : found.picture;
+        found.admin = updMember.admin //? updMember.admin : found.admin;
 
-        found.save({found}, (err, result) => {
-            if (err) return res.status(400).json({msg: 'Error saving member data'});
-        });
+        try {
+            found.save({found}, (err, result) => {
+                if (err) {
+                    console.error("found.save ERROR: " + err)
+                    return res.status(400).json({msg: 'Error saving member data'});
+                }
+            });
+        } catch(e) {
+            console.log("ERROR in SAVING object" + e)
+            return res.status(400).json({msg: 'Error saving member data'});
+        }
 
         return res.json({msg: 'Member updated', found})
     }

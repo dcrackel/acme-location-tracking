@@ -8,6 +8,7 @@
                   @change-location="reEmit"
                   @update-person="$emit('update-person', person)"
                   @delete-person="$emit('delete-person', person)"
+                  @make-admin="$emit('make-admin', person)"
           />
         </div>
        <Emptyperson v-if="$auth.isAuthenticated" @add-person="$emit('add-person')" />

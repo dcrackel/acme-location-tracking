@@ -6,6 +6,7 @@
             @update-person="updatePerson"
             @delete-person="deletePerson"
             @add-person="addPerson"
+            @make-admin="makeOrRemoveAdmin"
     />
   </div>
 </template>
@@ -36,8 +37,11 @@ export default {
       const data = res.json()
       return data
     },
+    makeOrRemoveAdmin(inPerson) {
+      inPerson.admin = !inPerson.admin
+      this.updatePerson(inPerson)
+    },
     async updatePerson(inPerson) {
-
       const res = await fetch(`http://localhost:5000/api/people/${inPerson._id}`, {
         method: 'PUT',
         headers: {
@@ -46,8 +50,9 @@ export default {
         body: JSON.stringify(inPerson)
       })
       const data = await res.json()
+
       this.people = this.people.map(
-          (person) => (person._id === data.found._id) ? person = inPerson : person
+          (person) => (person._id === data.found._id) ? person = data.found : person
       )
 
     },
@@ -56,7 +61,6 @@ export default {
       const randomPersonRes = await fetch(`https://randomuser.me/api/`)
       const randomData = await randomPersonRes.json()
       const randomPerson = randomData.results[0];
-      console.log(randomPerson)
 
       //create person object this app uses
       const inPerson = {
@@ -67,8 +71,7 @@ export default {
         editname: false,
         edithemail: false
       }
-      console.log("INPERSON")
-      console.log(inPerson)
+
       //add the new person
       const res = await fetch(`http://localhost:5000/api/people/`, {
         method: 'POST',
@@ -89,7 +92,6 @@ export default {
           method: 'DELETE',
         })
 
-        console.log("DELETE STATUS:" + res.status)
         res.status === 200 ?
             (this.people = this.people.filter(
                 (person) => person._id !== inPerson._id)
