@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="personbox">
+    <div class="personbox" @click="$emit('add-person');">
       <div class="personimg" ><i class="fas fa-user-plus"></i></div>
       <div class="persontextbox">
         <div class="personname"></div>
@@ -20,13 +20,7 @@ export default {
   },
   methods: {
   },
-  data() {
-    return {
-    }
-  },
-  created() {
 
-  }
 }
 </script>
 

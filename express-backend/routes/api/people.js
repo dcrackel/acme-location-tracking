@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
             picture: req.body.picture
         });
 
-    if(!req.body.name || !req.body.email || req.body.location || req.body.picture){
+    if(!req.body.name || !req.body.email || !req.body.location || !req.body.picture){
         return res.status(400).json({msg: 'please include a name, email, location, and picture url'});
     }
 

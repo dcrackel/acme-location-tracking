@@ -4,9 +4,13 @@
     <div class="personbox">
       <img class="personimg" :src="person.picture" /><i :class="getIcon(person.location)"></i>
       <div class="persontextbox">
-        <div class="personname">{{person.name}}</div>
-        <div class="personlocation">Is working from
+        <input v-if="person.editemail === true && $auth.isAuthenticated" v-model="person.email" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personemailedit" />
+        <div v-else :class="$auth.isAuthenticated ? 'personemail cursor' : 'personemail'"  @click="setEdit(person, 'email')">{{person.email}}</div>
 
+        <input v-if="person.editname === true && $auth.isAuthenticated" v-model="person.name" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personnameedit" />
+        <div v-else :class="$auth.isAuthenticated ? 'personname cursor' : 'personname'"  @click="setEdit(person, 'name')">{{person.name}}</div>
+
+        <div class="personlocation">Is working from
           <div class="dropdown" >
             <button :class="getColor(person.location, $auth.isAuthenticated)">{{ person.location }}</button>
             <div class="dropdown-content" v-if="$auth.isAuthenticated">
@@ -15,6 +19,9 @@
           </div>
 
         </div>
+      </div>
+      <div v-if="$auth.isAuthenticated" class="deleteperson" @click="$emit('delete-person', person)">
+        <i class="fas fa-times-circle"></i>
       </div>
     </div>
 
@@ -28,6 +35,14 @@ export default {
     person: Object
   },
   methods: {
+    setEdit(person, fromfield){
+      if (fromfield == 'name') person.editname = true
+      if (fromfield == 'email') person.editemail = true
+    },
+    updatePerson(person){
+      person.editname = false
+      person.editemail = false
+    },
     getIcon(locationname) {
       switch (locationname) {
         case "home":
@@ -51,7 +66,7 @@ export default {
   },
   data() {
     return {
-      items: []
+      items: [],
     }
   },
   created() {
@@ -69,6 +84,13 @@ export default {
         title: 'lab'
       }
     ]
+  },
+  directives: {
+    focus: {
+      inserted (el) {
+        el.focus()
+      }
+    }
   }
 }
 </script>
@@ -99,6 +121,39 @@ export default {
   font-size: 13pt;
 }
 
+input {border:0;outline:0;}
+input:focus {outline:none!important;}
+
+.personnameedit
+{
+  line-height: 40px;
+  background: #C58E4A;
+  border-width: 0px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 20px;
+  font-size: 18pt;
+  color: #efefef;
+  margin: 6px 0px 6px 0px;
+  transition: all .4s ease;
+  width: 80%;
+}
+
+.personemailedit
+{
+  line-height: 20px;
+  background: #C58E4A;
+  border-width: 0px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 20px;
+  font-size: 11pt;
+  color: #efefef;
+  margin: 0px 0px 0px 0px;
+  transition: all .4s ease;
+  width: 80%;
+}
+
 .lightblue {
   background: #5B919E;
 }
@@ -111,6 +166,28 @@ export default {
   background: #8967AC;
 }
 
+.deleteperson {
+  display: block;
+  color: #C2494F;
+  width: 20px;
+  height: 20px;
+  margin: -6px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  cursor: pointer;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.cursor:hover {
+  border: 1px solid #C58E4A !important;
+  border-radius: 5px;
+  padding: 0 5px;
+  /*transition: all .4s ease;*/
+  width: 80%;
+}
+
 .persontextbox{
   display: flex;
   flex-direction: column;
@@ -120,9 +197,17 @@ export default {
 }
 
 .personname {
-  font-size: 22pt;
+  font-size: 20pt;
+  margin: 0px 0px 0px 0px;
+  width: 80%;
 }
 
+.personemail {
+  font-size: 10pt;
+  margin: -8px 0px -6px 0px;
+  color: #C58E4A;
+  width: 80%;
+}
 .personlocation {
   font-size: 12pt;
 }

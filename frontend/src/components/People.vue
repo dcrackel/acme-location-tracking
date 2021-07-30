@@ -4,9 +4,13 @@
       <div class="rostertext">Today's Roster</div>
       <div class="peoplecontainer">
         <div class="peoplebox" v-for="person in people" :key="person._id">
-          <Person :person="person" @change-location="reEmit" />
+          <Person :person="person"
+                  @change-location="reEmit"
+                  @update-person="$emit('update-person', person)"
+                  @delete-person="$emit('delete-person', person)"
+          />
         </div>
-       <Emptyperson v-if="$auth.isAuthenticated" />
+       <Emptyperson v-if="$auth.isAuthenticated" @add-person="$emit('add-person')" />
       </div>
     </div>
   </div>
