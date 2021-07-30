@@ -1,23 +1,23 @@
 <template>
   <div>
+
     <div class="personbox">
       <img class="personimg" :src="person.picture" /><i :class="getIcon(person.location)"></i>
       <div class="persontextbox">
         <div class="personname">{{person.name}}</div>
-        <div class="personlocation">Is working from <b>
+        <div class="personlocation">Is working from
 
           <div class="dropdown" >
-            <button :class="getColor(person.location)">{{ person.location }}</button>
+            <button :class="getColor(person.location, $auth.isAuthenticated)">{{ person.location }}</button>
             <div class="dropdown-content" v-if="$auth.isAuthenticated">
               <a v-for="item in items" :key="item.id" @click="$emit('change-location', {pid: person._id, loc: item.title})">{{item.title}}</a>
             </div>
           </div>
 
-        </b>
         </div>
-
       </div>
     </div>
+
   </div>
 </template>
 
@@ -38,23 +38,19 @@ export default {
           return "fas fa-building smallicon lightpurple";
       }
     },
-    getColor(locationname){
+    getColor(locationname, auth){
         switch(locationname){
           case "home":
-            return "dropbtn lightblue";
+            return (auth ? "dropbtn lightblue dropdown2" : "dropbtn lightblue");
           case "lab":
-            return "dropbtn lightgreen";
+            return (auth ? "dropbtn lightgreen dropdown2" : "dropbtn lightgreen");
           case "office":
-            return "dropbtn lightpurple";
+            return (auth ? "dropbtn lightpurple dropdown2" : "dropbtn lightpurple");
         }
-    },
-    onChange(key) {
-      this.newTodoText = "id:"+this.items[key-1].id+"/title:"+this.items[key-1].title;
     }
   },
   data() {
     return {
-      newTodoText: '',
       items: []
     }
   },
@@ -164,6 +160,13 @@ export default {
 
 .dropdown-content a:hover {background-color: #ddd;}
 .dropdown:hover .dropdown-content {display: block;}
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover {
+
+}
+
+.dropdown2:hover {
+  border-radius: 10px;
+  background: #FF7765;
+}
 
 </style>

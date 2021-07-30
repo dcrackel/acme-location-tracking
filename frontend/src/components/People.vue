@@ -6,6 +6,7 @@
         <div class="peoplebox" v-for="person in people" :key="person._id">
           <Person :person="person" @change-location="reEmit" />
         </div>
+       <Emptyperson v-if="$auth.isAuthenticated" />
       </div>
     </div>
   </div>
@@ -13,6 +14,7 @@
 
 <script>
 import Person from './Person'
+import Emptyperson from './Emptyperson'
 
 export default {
   name: "People",
@@ -20,7 +22,8 @@ export default {
     people: Array,
   },
   components: {
-    Person
+    Person,
+    Emptyperson
   },
   methods: {
     reEmit(obj){
