@@ -4,23 +4,23 @@
     <div class="personbox">
       <img class="personimg" :src="person.picture" /><i :class="getIcon(person.location)"></i>
       <div class="persontextbox">
-        <input v-if="person.editemail === true && $auth.isAuthenticated" v-model="person.email" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personemailedit" />
-        <div v-else :class="$auth.isAuthenticated ? 'personemail cursor' : 'personemail'"  @click="setEdit(person, 'email')">{{person.email}}</div>
+        <input v-if="person.editemail === true && shouldBeInEditMode()" v-model="person.email" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personemailedit" />
+        <div v-else :class="shouldBeInEditMode() ? 'personemail cursor' : 'personemail'"  @click="setEdit(person, 'email')">{{person.email}}</div>
 
-        <input v-if="person.editname === true && $auth.isAuthenticated" v-model="person.name" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personnameedit" />
-        <div v-else :class="$auth.isAuthenticated ? 'personname cursor' : 'personname'"  @click="setEdit(person, 'name')">{{person.name}}</div>
+        <input v-if="person.editname === true && shouldBeInEditMode()" v-model="person.name" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personnameedit" />
+        <div v-else :class="shouldBeInEditMode() ? 'personname cursor' : 'personname'"  @click="setEdit(person, 'name')">{{person.name}}</div>
 
         <div class="personlocation">Is working from
           <div class="dropdown" >
-            <button :class="getColor(person.location, $auth.isAuthenticated)">{{ person.location }}</button>
-            <div class="dropdown-content" v-if="$auth.isAuthenticated">
+            <button :class="getColor(person.location, shouldBeInEditMode())">{{ person.location }}</button>
+            <div class="dropdown-content" v-if="shouldBeInEditMode()">
               <a v-for="item in items" :key="item.id" @click="$emit('change-location', {pid: person._id, loc: item.title})">{{item.title}}</a>
             </div>
           </div>
 
         </div>
       </div>
-      <div v-if="$auth.isAuthenticated" class="iconbox" >
+      <div v-if="shouldBeInAdminMode()" class="iconbox" >
           <div :class="person.admin ? 'isAdmin' : 'makeAdmin'" @click="$emit('make-admin', person)">
             <i class="fas fa-users-cog"></i>
           </div>
@@ -40,6 +40,22 @@ export default {
     person: Object
   },
   methods: {
+    shouldBeInEditMode(){
+      let retVal = false
+      if (this.$auth.isAuthenticated) {
+        (this.person.admin ? retVal = true : retVal = (this.$auth.user.email === this.person.email))
+        return retVal
+      }
+      return retVal
+    },
+    shouldBeInAdminMode(){
+      let retVal = false
+      if (this.$auth.isAuthenticated) {
+        (this.person.admin ? retVal = true : retVal = false)
+        return retVal
+      }
+      return retVal
+    },
     setEdit(person, fromfield){
       if (fromfield == 'name') person.editname = true
       if (fromfield == 'email') person.editemail = true
