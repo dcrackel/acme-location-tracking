@@ -235,11 +235,13 @@ input:focus {outline:none!important;}
 }
 
 .cursor:hover {
-  border: 1px solid #C58E4A !important;
+  /*border: 1px solid #C58E4A !important;*/
+  /*border-radius: 5px;*/
+  background: #C58E4A;
   border-radius: 5px;
-  padding: 0 5px;
-  /*transition: all .4s ease;*/
-  width: 90%;
+  padding: 0 20px;
+  color: #efefef;
+  transition: all .4s ease;
 }
 
 .persontextbox{
@@ -251,14 +253,22 @@ input:focus {outline:none!important;}
 }
 
 .personname {
-  font-size: 20pt;
+  line-height: 40px;
+  border-width: 0px;
+  border: none;
+  border-radius: 5px;
   margin: 0px 0px 0px 0px;
-  width: 82%;
+  padding: 0px 20px 0px 0px;
+  font-size: 20pt;
+  /*color: #efefef;*/
+  margin: 6px 0px 6px 0px;
+  transition: all .4s ease;
+  width: 96%;
 }
 
 .personemail {
   font-size: 10pt;
-  margin: -8px 0px -6px 0px;
+  margin: -8px 0px -9px 0px;
   color: #C58E4A;
   width: 80%;
 }

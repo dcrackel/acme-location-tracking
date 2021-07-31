@@ -111,11 +111,29 @@ export default {
             ) : alert('Error Deleteing Task')
       }
     },
+    async addNewLogEntry(updPerson){
+      const log = {
+        user_id: updPerson._id,
+        name: updPerson.name,
+        location: updPerson.location
+      }
+      
+      const res = await fetch(`http://localhost:5000/api/log`, {
+        method: 'POST',
+        headers: {
+          'content-type':'application/json',
+        },
+        body: JSON.stringify(log)
+      })
+
+      if (res.status !== 200) alert('Error addNewLogEntry')
+    },
     async changeLocation(obj) {
       console.log(`changeLocation: ${obj.pid} ${obj.loc}`)
       const person = await this.fetchPerson(obj.pid)
       const updPerson = {...person[0], location: obj.loc}
 
+      await this.addNewLogEntry(updPerson)
       const res = await fetch(`http://localhost:5000/api/people/${updPerson._id}`, {
         method: 'PUT',
         headers: {

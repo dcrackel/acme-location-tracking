@@ -23,5 +23,9 @@ app.use('/api/people',
     allowCORS,
     require('./routes/api/people'));
 
+app.use('/api/log',
+    allowCORS,
+    require('./routes/api/log'));
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Started on port: ${PORT}`));
