@@ -1,7 +1,19 @@
 <template>
   <nav class="navbar">
-      <div><img class="logo" src="../assets/ACME-logo.png" /></div>
+      <div>
+        <router-link to="./" style="text-decoration: none; color: inherit;">
+        <img class="logo" src="../assets/ACME-logo.png" />
+        </router-link>
+      </div>
       <div class="buttonbar">
+
+        <span class="nav-item">
+          <router-link to="./report" style="text-decoration: none; color: inherit;">
+          <div class="login" ><i class="far fa-list-alt"></i></div>
+          <div class="logintext" >Report</div>
+          </router-link>
+        </span>
+
 
         <span class="nav-item dropdown" v-if="$auth.isAuthenticated">
           <div @click.prevent="logout">
@@ -47,6 +59,14 @@ nav {
   border-bottom: 5px solid #FFFFFF;
 }
 
+.buttonbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 200px;
+  padding: 0px 10px 0px 10px;
+}
+
 .login {
   border: 1px solid #666666;
   width: 40px;
@@ -86,9 +106,12 @@ nav {
 
 .logintext
 {
-  margin: -8px 0px 0px 14px;
+  margin: -8px 0px 0px 12px;
+  padding: 0px 0px 0px 0px;
   font-size: 10pt;
   cursor: pointer;
+  width: 40px;
+  text-align: center;
 }
 
 .logouttext

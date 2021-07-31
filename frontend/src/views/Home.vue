@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner />
+    <Banner :page="page" :message="message"/>
     <div v-if="!$auth.loading" class="hidden">{{setIsAdmin()}}</div>
     <People :people="people" :isAdminMode="isAdmin"
             @loging-in="setIsAdmin"
@@ -26,7 +26,9 @@ export default {
   data() {
     return {
       people: [],
-      isAdmin: false
+      isAdmin: false,
+      page: "home",
+      message: "Where are you productive today?"
     }
   },
   methods: {
@@ -117,7 +119,7 @@ export default {
         name: updPerson.name,
         location: updPerson.location
       }
-      
+
       const res = await fetch(`http://localhost:5000/api/log`, {
         method: 'POST',
         headers: {
