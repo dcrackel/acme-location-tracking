@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="personbox">
       <img class="personimg" :src="person.picture" /><i :class="getIcon(person.location)"></i>
       <div class="persontextbox">
@@ -20,7 +19,7 @@
 
         </div>
       </div>
-      <div v-if="shouldBeInAdminMode()" class="iconbox" >
+      <div v-if="isAdmin" class="iconbox" >
           <div :class="person.admin ? 'isAdmin' : 'makeAdmin'" @click="$emit('make-admin', person)">
             <i class="fas fa-users-cog"></i>
           </div>
@@ -37,24 +36,15 @@
 export default {
   name: 'Person',
   props: {
-    person: Object
+    person: Object,
+    isAdmin: Boolean
   },
   methods: {
     shouldBeInEditMode(){
-      let retVal = false
       if (this.$auth.isAuthenticated) {
-        (this.person.admin ? retVal = true : retVal = (this.$auth.user.email === this.person.email))
-        return retVal
+        return (this.isAdmin ? true : (this.$auth.user.email === this.person.email))
       }
-      return retVal
-    },
-    shouldBeInAdminMode(){
-      let retVal = false
-      if (this.$auth.isAuthenticated) {
-        (this.person.admin ? retVal = true : retVal = false)
-        return retVal
-      }
-      return retVal
+      return false
     },
     setEdit(person, fromfield){
       if (fromfield == 'name') person.editname = true

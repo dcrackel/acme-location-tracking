@@ -1,17 +1,20 @@
 <template>
   <div class="topborder">
     <div class="roaster">
+      <div v-if="!$auth.loading">
+        {{isAdminMode}}
+      </div>
       <div class="rostertext">Today's Roster</div>
       <div class="peoplecontainer">
         <div class="peoplebox" v-for="person in people" :key="person._id">
-          <Person :person="person"
+          <Person :person="person" :isAdmin="isAdminMode"
                   @change-location="reEmit"
                   @update-person="$emit('update-person', person)"
                   @delete-person="$emit('delete-person', person)"
                   @make-admin="$emit('make-admin', person)"
           />
         </div>
-       <Emptyperson v-if="$auth.isAuthenticated" @add-person="$emit('add-person')" />
+       <Emptyperson v-if="isAdminMode" @add-person="$emit('add-person')" />
       </div>
     </div>
   </div>
@@ -25,15 +28,17 @@ export default {
   name: "People",
   props: {
     people: Array,
+    isAdminMode: Boolean
   },
   components: {
     Person,
     Emptyperson
   },
   methods: {
-    reEmit(obj){
-      this.$emit('change-location',{pid: obj.pid, loc: obj.loc})
-    }
+    reEmit(obj) {
+      this.$emit('change-location', {pid: obj.pid, loc: obj.loc})
+    },
+
   }
 }
 </script>

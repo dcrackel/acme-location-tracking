@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header />
-    <People :people="people"
+    <div v-if="!$auth.loading" class="hidden">{{setIsAdmin()}}</div>
+    <People :people="people" :isAdminMode="isAdmin"
+            @loging-in="setIsAdmin"
             @change-location="changeLocation"
             @update-person="updatePerson"
             @delete-person="deletePerson"
@@ -23,13 +25,22 @@ export default {
   },
   data() {
     return {
-      people: []
+      people: [],
+      isAdmin: false
     }
   },
   methods: {
+    async setIsAdmin(){
+        if (this.$auth.isAuthenticated) {
+          this.people.forEach((person) => {
+            if (person.email === this.$auth.user.email)
+              this.isAdmin = person.admin
+          })
+        }
+    },
     async fetchPeople(){
       const res = await fetch('http://localhost:5000/api/people/')
-      const data = res.json()
+      const data = await res.json()
       return data
     },
     async fetchPerson(id){
@@ -114,14 +125,19 @@ export default {
 
       this.people = this.people.map((person) => (person._id === data.found._id)
           ? {...person, location: data.found.location} : person)
+
     }
   },
   async created() {
-    this.people = await this.fetchPeople();
+    this.people = await this.fetchPeople()
+    // console.log("RESULT: " + await this.fetchPeople().then((data) =>{this.setIsAdmin(data)}))
+    // //this.isAdmin = await this.setIsAdmin();
   }
 }
 </script>
 
 <style scoped>
-
+.hidden{
+  display: none;
+}
 </style>
