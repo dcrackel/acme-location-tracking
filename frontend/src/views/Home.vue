@@ -31,6 +31,8 @@ export default {
   },
   methods: {
     async setIsAdmin(){
+      //this is the authorization method. If they have a auth0 login, and are flagged as a admin
+      //they will have admin rights. email in the DB, must match email from auth0
         if (this.$auth.isAuthenticated) {
           this.people.forEach((person) => {
             if (person.email === this.$auth.user.email)
@@ -130,8 +132,6 @@ export default {
   },
   async created() {
     this.people = await this.fetchPeople()
-    // console.log("RESULT: " + await this.fetchPeople().then((data) =>{this.setIsAdmin(data)}))
-    // //this.isAdmin = await this.setIsAdmin();
   }
 }
 </script>
