@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Banner />
     <div v-if="!$auth.loading" class="hidden">{{setIsAdmin()}}</div>
     <People :people="people" :isAdminMode="isAdmin"
             @loging-in="setIsAdmin"
@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import Header from '../components/Header';
+import Banner from '../components/Banner';
 import People from "../components/People";
 
 export default {
   name: 'App',
   components: {
     People,
-    Header,
+    Banner,
   },
   data() {
     return {
