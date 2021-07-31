@@ -1,9 +1,6 @@
 <template>
   <div class="topborder">
     <div class="roaster">
-      <div v-if="!$auth.loading">
-        {{isAdminMode}}
-      </div>
       <div class="rostertext">Today's Roster</div>
       <div class="peoplecontainer">
         <div class="peoplebox" v-for="person in people" :key="person._id">
