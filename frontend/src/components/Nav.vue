@@ -7,10 +7,10 @@
       </div>
       <div class="buttonbar">
 
-        <span class="nav-item">
+        <span class="nav-item" v-if="$auth.isAuthenticated && !$auth.loading">
           <router-link to="./report" style="text-decoration: none; color: inherit;">
-          <div class="login" ><i class="far fa-list-alt"></i></div>
-          <div class="logintext" >Report</div>
+            <div class="login" ><i class="far fa-list-alt"></i></div>
+            <div class="logintext" >Report</div>
           </router-link>
         </span>
 

@@ -83,12 +83,12 @@ export default {
         }
     },
     async fetchPeople(){
-      const res = await fetch('http://localhost:5000/api/people/')
+      const res = await fetch('https://localhost:5000/api/people/')
       const data = await res.json()
       return data
     },
     async fetchPerson(id){
-      const res = await fetch(`http://localhost:5000/api/people/${id}`)
+      const res = await fetch(`https://localhost:5000/api/people/${id}`)
       const data = await res.json()
       return data
     },
@@ -97,7 +97,7 @@ export default {
       this.updatePerson(inPerson)
     },
     async updatePerson(inPerson) {
-      const res = await fetch(`http://localhost:5000/api/people/${inPerson._id}`, {
+      const res = await fetch(`https://localhost:5000/api/people/${inPerson._id}`, {
         method: 'PUT',
         headers: {
           'content-type': 'application/json',
@@ -139,7 +139,7 @@ export default {
       }
 
       //add the new person
-      const res = await fetch(`http://localhost:5000/api/people/`, {
+      const res = await fetch(`https://localhost:5000/api/people/`, {
         method: 'POST',
         headers: {
           'content-type':'application/json',
@@ -153,7 +153,7 @@ export default {
     },
     async deletePerson(inPerson) {
       if(confirm('Are you sure?')) {
-        const res = await fetch(`http://localhost:5000/api/people/${inPerson._id}`, {
+        const res = await fetch(`https://localhost:5000/api/people/${inPerson._id}`, {
           method: 'DELETE',
         })
 
@@ -170,7 +170,7 @@ export default {
         location: updPerson.location
       }
 
-      const res = await fetch(`http://localhost:5000/api/log`, {
+      const res = await fetch(`https://localhost:5000/api/log`, {
         method: 'POST',
         headers: {
           'content-type':'application/json',
@@ -185,7 +185,7 @@ export default {
       const updPerson = {...person[0], location: obj.loc}
 
       await this.addNewLogEntry(updPerson)
-      const res = await fetch(`http://localhost:5000/api/people/${updPerson._id}`, {
+      const res = await fetch(`https://localhost:5000/api/people/${updPerson._id}`, {
         method: 'PUT',
         headers: {
           'content-type':'application/json',
