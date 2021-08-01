@@ -32,14 +32,51 @@ export default {
     }
   },
   methods: {
+    validateEmail(email) {
+      return (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email))
+    },
+    emailFoundInCollection(email)
+    {
+      this.people.forEach((person) => {
+        if (person.email.toLowerCase() === email.toLowerCase()) {
+          return true
+        }
+      })
+      return false
+    },
+    async ifNotFoundThenAdd(email) {
+      if (!this.validateEmail(email)) return
+      if (this.emailFoundInCollection(email)) return
+
+      const picNo = Math.floor(Math.random() * 99);
+      const tag = (Math.floor(Math.random() * 2) === 1 ? 'women' : 'men')
+      const inPerson = {
+        name: this.$auth.user.name,
+        email: this.$auth.user.email,
+        location: "home",
+        picture: `https://randomuser.me/api/portraits/${tag}/${picNo}.jpg`,
+        editname: false,
+        edithemail: false
+      }
+
+      await this.addPersonWithData(inPerson)
+    },
+    async ifFoundSetAdmin(email){
+      this.people.forEach((person) => {
+        if (person.email === email)
+          this.isAdmin = person.admin
+          return true
+      })
+      console.log("ifFoundSetAdmin NOT FOUND" + email)
+      return false
+    },
     async setIsAdmin(){
       //this is the authorization method. If they have a auth0 login, and are flagged as a admin
       //they will have admin rights. email in the DB, must match email from auth0
         if (this.$auth.isAuthenticated) {
-          this.people.forEach((person) => {
-            if (person.email === this.$auth.user.email)
-              this.isAdmin = person.admin
-          })
+          if (!await this.ifFoundSetAdmin(this.$auth.user.email)) {
+            await this.ifNotFoundThenAdd(this.$auth.user.email)
+          }
         }
     },
     async fetchPeople(){
@@ -49,7 +86,7 @@ export default {
     },
     async fetchPerson(id){
       const res = await fetch(`http://localhost:5000/api/people/${id}`)
-      const data = res.json()
+      const data = await res.json()
       return data
     },
     makeOrRemoveAdmin(inPerson) {
@@ -71,7 +108,7 @@ export default {
       )
 
     },
-    async addPerson(){
+    async addPerson() {
       //get random person
       const randomPersonRes = await fetch(`https://randomuser.me/api/`)
       const randomData = await randomPersonRes.json()
@@ -79,12 +116,24 @@ export default {
 
       //create person object this app uses
       const inPerson = {
-        name: `${randomPerson.name.first} ${randomPerson.name.last}`,
-        email: randomPerson.email,
+        name: this.$auth.user.name,
+        email: this.$auth.user.email,
         location: "home",
         picture: randomPerson.picture.medium,
         editname: false,
         edithemail: false
+      }
+
+      await this.addPersonWithData(inPerson)
+    },
+    async doesPersonExistInDB(email) {
+      const data = await this.fetchPerson(email)
+      return (data[0].name)
+    },
+    async addPersonWithData(inPerson){
+      if (await this.doesPersonExistInDB(inPerson.email)){
+        console.log("PERSON IN DB")
+        return
       }
 
       //add the new person
@@ -98,6 +147,7 @@ export default {
       const data = await res.json()
 
       // spread collection and add new person to end
+      console.log("Added: " + JSON.stringify(data))
       this.people = [...this.people, data]
     },
     async deletePerson(inPerson) {

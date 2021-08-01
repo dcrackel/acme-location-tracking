@@ -19,7 +19,7 @@
 
         </div>
       </div>
-      <div v-if="isAdmin" class="iconbox" >
+      <div v-if="shouldBeInEditMode()" class="iconbox" >
           <div :class="person.admin ? 'isAdmin' : 'makeAdmin'" @click="$emit('make-admin', person)">
             <i class="fas fa-users-cog"></i>
           </div>

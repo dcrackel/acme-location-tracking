@@ -14,14 +14,16 @@ router.get('/', (req, res) => {
 });
 
 
-// get single member
+// get single member by object id or by email
 router.get('/:id', (req, res) => {
-    Person.find({_id:new ObjectId(req.params.id)}, (err, member) => {
+    const filter = (req.params.id.indexOf('@') > -1) ? {email:req.params.id} : {_id:new ObjectId(req.params.id)}
+    Person.find(filter, (err, member) => {
         if (err) {
             return res.status(400).json({msg: `No member with id of ${req.params.id} not found!`})
         }
         return res.json(member);
     });
+    res.status(200)
 });
 
 //create member
@@ -38,11 +40,17 @@ router.post('/', (req, res) => {
         return res.status(400).json({msg: 'please include a name, email, location, and picture url'});
     }
 
-    newPeople.save({newPeople}, (err, result) => {
-        if (err) return res.status(400).json({msg: 'Error saving member data'});
-    });
-
-    res.json(newPeople);
+    try {
+        newPeople.save({newPeople}, (err, result) => {
+            if (err) {
+                console.log(err)
+                //return res.status(400).json({msg: 'Error saving member data'});
+            }
+        });
+        res.json(newPeople);
+    } catch(err) {
+        return res.status(500).json({msg: 'Error saving member data'});
+    }
 });
 
 // update single member
