@@ -48,7 +48,6 @@ export default {
       if (!this.validateEmail(email)) return
       if (this.emailFoundInCollection(email)) return
 
-      console.log(this.$auth.user)
       const picNo = Math.floor(Math.random() * 99);
       const tag = (Math.floor(Math.random() * 2) === 1 ? 'women' : 'men')
       const inPerson = {
@@ -63,18 +62,13 @@ export default {
       await this.addPersonWithData(inPerson)
     },
     async ifFoundSetAdmin(email){
-      let found = -1
       this.people.forEach((person) => {
-        console.log(person.email.toLowerCase() + " : " + email.toLowerCase() + ":" + person.email.localeCompare(email.toLowerCase()))
-        found = person.email.localeCompare(email.toLowerCase())
         if (person.email.localeCompare(email.toLowerCase()) === 0) {
           this.isAdmin = person.admin
           return true
         }
       })
 
-      if (found === 0) return true
-      console.log("ifFoundSetAdmin NOT FOUND: " + email + ":" + found + "!")
       return false
     },
     async setIsAdmin(){
@@ -144,7 +138,6 @@ export default {
         return
       }
 
-      console.log("add person!")
       //add the new person
       const res = await fetch(`http://localhost:5000/api/people/`, {
         method: 'POST',
@@ -160,7 +153,6 @@ export default {
     },
     async deletePerson(inPerson) {
       if(confirm('Are you sure?')) {
-        console.log("DELETE")
         const res = await fetch(`http://localhost:5000/api/people/${inPerson._id}`, {
           method: 'DELETE',
         })
@@ -189,7 +181,6 @@ export default {
       if (res.status !== 200) alert('Error addNewLogEntry')
     },
     async changeLocation(obj) {
-      console.log(`changeLocation: ${obj.pid} ${obj.loc}`)
       const person = await this.fetchPerson(obj.pid)
       const updPerson = {...person[0], location: obj.loc}
 
