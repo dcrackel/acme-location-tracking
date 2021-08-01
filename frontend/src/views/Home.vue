@@ -48,6 +48,7 @@ export default {
       if (!this.validateEmail(email)) return
       if (this.emailFoundInCollection(email)) return
 
+      console.log(this.$auth.user)
       const picNo = Math.floor(Math.random() * 99);
       const tag = (Math.floor(Math.random() * 2) === 1 ? 'women' : 'men')
       const inPerson = {
@@ -62,20 +63,28 @@ export default {
       await this.addPersonWithData(inPerson)
     },
     async ifFoundSetAdmin(email){
+      let found = -1
       this.people.forEach((person) => {
-        if (person.email === email)
+        console.log(person.email.toLowerCase() + " : " + email.toLowerCase() + ":" + person.email.localeCompare(email.toLowerCase()))
+        found = person.email.localeCompare(email.toLowerCase())
+        if (person.email.localeCompare(email.toLowerCase()) === 0) {
           this.isAdmin = person.admin
           return true
+        }
       })
-      console.log("ifFoundSetAdmin NOT FOUND" + email)
+
+      if (found === 0) return true
+      console.log("ifFoundSetAdmin NOT FOUND: " + email + ":" + found + "!")
       return false
     },
     async setIsAdmin(){
       //this is the authorization method. If they have a auth0 login, and are flagged as a admin
       //they will have admin rights. email in the DB, must match email from auth0
         if (this.$auth.isAuthenticated) {
-          if (!await this.ifFoundSetAdmin(this.$auth.user.email)) {
-            await this.ifNotFoundThenAdd(this.$auth.user.email)
+          if (this.people.length > 0) {
+            if (!await this.ifFoundSetAdmin(this.$auth.user.email)) {
+              await this.ifNotFoundThenAdd(this.$auth.user.email)
+            }
           }
         }
     },
@@ -128,14 +137,14 @@ export default {
     },
     async doesPersonExistInDB(email) {
       const data = await this.fetchPerson(email)
-      return (data[0].name)
+      return (data[0] === undefined? false : true)
     },
     async addPersonWithData(inPerson){
       if (await this.doesPersonExistInDB(inPerson.email)){
-        console.log("PERSON IN DB")
         return
       }
 
+      console.log("add person!")
       //add the new person
       const res = await fetch(`http://localhost:5000/api/people/`, {
         method: 'POST',
@@ -147,7 +156,6 @@ export default {
       const data = await res.json()
 
       // spread collection and add new person to end
-      console.log("Added: " + JSON.stringify(data))
       this.people = [...this.people, data]
     },
     async deletePerson(inPerson) {
