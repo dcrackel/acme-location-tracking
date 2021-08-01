@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="logitembox">
+      <div class="logitembox" :class="getBackgroundColor()">
         <div class="userid item">{{log.user_id}}</div>
         <div class="name item">{{log.name}}</div>
         <div class="location item">{{log.location}}</div>
@@ -13,19 +13,29 @@
 export default {
   name: "Logitem",
   props: {
-    log: Object
+    log: Object,
+    toggle: Boolean
+  },
+  methods:{
+    getBackgroundColor(){
+      return (this.toggle ? 'toggle1' : 'toggle2')
+    }
   }
+
+
 }
 </script>
 
 <style scoped>
 .logitembox{
   display: flex;
-  margin: 5px 10px 5px 10px;
-  width: 1000px;
+  justify-content: space-evenly;
+  padding: 5px 0px 5px 0px;
+  color: #A46D29;
 }
 .logitembox:hover{
-  background: #5B919E;
+  background: #ff9c90;
+  color: white;
 }
 
 .item{
@@ -49,6 +59,14 @@ export default {
 .timestamp{
   width: 250px;
   text-align: left;
+}
+
+.toggle1 {
+  background: #FFDCB1;
+}
+
+.toggle2 {
+  background: #FACD95;
 }
 
 </style>

@@ -19,7 +19,8 @@ const router = new Router({
         {
             path: "/report",
             name: "report",
-            component: Report
+            component: Report,
+            beforeEnter: authGuard
         },
         {
             path: "/profile",

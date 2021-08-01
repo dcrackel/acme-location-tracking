@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Log = require('../../model/Log');
 
+function formatDate(date) {
+    return new Date(date).toISOString().replace(/T/, ' ').replace(/\..+/, '')
+}
+
 router.get('/', (req, res) => {
     Log.find({}, (err, logs) => {
         if (err) {
