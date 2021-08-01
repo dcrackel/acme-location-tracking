@@ -11,13 +11,21 @@ In the /express-backend directory, run "npm run dev"
 You will need a get a copy of auth_config.json. (or you can make your own)
 
 
-# Log In
-If you are logged in via Auth0, you can change the users location on the front page.
+# Log In to do MORE!
+When you log in via Auth0 a user will be created and added to the collection for you.
 
-This was to show a simple authentication mechanic without the need of authorization.
+You will then have access to edit your information including being able to change your locations
 
-However with more time I can add more features.
+You will also have access to the report screen. The icon will appear near the log in/log out icon.
 
+
+Since this is a stand alone application I wanted you to be able to see the admin functionality. So, You will also be able to make yourself an admin by clicking the purple admin icon on your personal card.
+
+As an admin you can: 
+edit all users data
+make any user an admin
+delete users
+change the location of any user
 
 
 # Objective
