@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="topborder">
-      <div class="roaster">
-        <div class="rostertext">Change Log</div>
-        <div class="search-wrapper">
+      <div id="roster" class="roster">
+        <div id="rostertext" class="rostertext">Change Log</div>
+        <div id="search-wrapper" class="search-wrapper">
           <input class="searchinput" type="text" v-model="search" placeholder="Search by: entering a name, location or date"/>
         </div>
         <div class="reportcontainer">
@@ -57,7 +57,27 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 1000px) {
+  #roster {
+    width: 100% !important;
+    border: 0px solid #999999 !important;
+    border-radius: 0px;
+    margin: 0px auto 0px auto !important;
+  }
 
+  #rostertext {
+    font-size: 20pt !important;
+    border-radius: 0px !important;
+    text-align: center;
+  }
+
+  #search-wrapper{
+    width: 100% !important;
+  }
+  .searchinput {
+    width: 100% !important;
+  }
+}
 
 .topborder{
   border-top: 5px solid #ffffff;
