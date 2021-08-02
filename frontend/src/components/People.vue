@@ -1,9 +1,9 @@
 <template>
   <div class="topborder">
-    <div class="roaster">
-      <div class="rostertext">Today's Roster</div>
+    <div id="roster" class="roaster">
+      <div id="rostertext" class="rostertext">Today's Roster</div>
       <div class="peoplecontainer">
-        <div class="peoplebox" v-for="person in people" :key="person._id">
+        <div id="peoplebox" class="peoplebox" v-for="person in people" :key="person._id">
           <Person :person="person" :isAdmin="isAdminMode"
                   @change-location="reEmit"
                   @update-person="$emit('update-person', person)"
@@ -11,7 +11,7 @@
                   @make-admin="$emit('make-admin', person)"
           />
         </div>
-       <Emptyperson v-if="isAdminMode" @add-person="$emit('add-person')" />
+       <Emptyperson id="peoplebox" class="peoplebox" v-if="isAdminMode" @add-person="$emit('add-person')" />
       </div>
     </div>
   </div>
@@ -41,6 +41,25 @@ export default {
 </script>
 
 <style scoped>
+
+@media screen and (max-width: 1000px) {
+  #roster {
+    width: 100%;
+    border: 0px solid #999999;
+    border-radius: 0px;
+    margin: 0px auto 0px auto;
+  }
+
+  #rostertext {
+    font-size: 20pt;
+    border-radius: 0px;
+  }
+
+  #peoplebox {
+     width: 100% !important;
+  }
+}
+
 .topborder{
   border-top: 5px solid #ffffff;
 }

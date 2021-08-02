@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="personbox" @click="$emit('add-person');">
+    <div id="personbox" class="personbox" @click="$emit('add-person');">
       <div class="personimg" ><i class="fas fa-user-plus"></i></div>
       <div class="persontextbox">
         <div class="personname"></div>
@@ -25,6 +25,7 @@ export default {
 </script>
 
 <style scoped>
+
 .personbox {
   display: flex;
   margin: 20px;

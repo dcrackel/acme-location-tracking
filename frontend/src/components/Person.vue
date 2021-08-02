@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="personbox">
+    <div id="personbox" class="personbox">
       <img class="personimg" :src="person.picture" /><i :class="getIcon(person.location)"></i>
       <div class="persontextbox">
         <input v-if="person.editemail === true && shouldBeInEditMode()" v-model="person.email" @blur="updatePerson(person); $emit('update-person', person)" v-focus class="personemailedit" />
@@ -107,6 +107,18 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 1200px) {
+  .personname{
+    font-size: 14pt !important;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .personname{
+    font-size: 20pt !important;
+  }
+}
+
 .personbox {
   display: flex;
   margin: 20px;

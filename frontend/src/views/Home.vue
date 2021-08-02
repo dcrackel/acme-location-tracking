@@ -206,6 +206,7 @@ export default {
 </script>
 
 <style scoped>
+
 .hidden{
   display: none;
 }
