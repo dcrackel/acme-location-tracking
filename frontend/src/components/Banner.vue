@@ -23,6 +23,36 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (max-width: 1000px) {
+  .title{
+    font-size: 40px !important;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .title{
+    font-size: 30px !important;
+  }
+
+  .hero{
+    height: 200px !important;
+  }
+
+  .hero2{
+    height: 200px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .hero{
+    height: 100px !important;
+  }
+
+  .hero2{
+    height: 100px !important;
+  }
+}
+
 .hero {
   text-align: center;
   background-image: url('../assets/WE9T5C.jpg');

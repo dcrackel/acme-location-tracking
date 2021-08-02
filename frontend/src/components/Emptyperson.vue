@@ -26,6 +26,7 @@ export default {
 
 <style scoped>
 
+
 .personbox {
   display: flex;
   margin: 20px;
