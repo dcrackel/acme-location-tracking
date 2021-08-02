@@ -44,6 +44,10 @@ export default {
 }
 
 @media screen and (max-width: 500px) {
+  .title{
+    font-size: 20px !important;
+  }
+
   .hero{
     height: 100px !important;
   }

@@ -119,6 +119,12 @@ export default {
   }
 }
 
+@media screen and (max-width: 800px) {
+  .personname{
+    font-size: 14pt !important;
+  }
+}
+
 .personbox {
   display: flex;
   margin: 20px;

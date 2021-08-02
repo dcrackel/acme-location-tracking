@@ -13,9 +13,9 @@
             <div>Location</div>
             <div>Timestamp</div>
           </div>
-          <div v-for="log in filteredList" :key="log._id">
-            <Logitem :log="log" :toggle="getToggle()" />
-          </div>
+          <tbody v-for="(log, index) in filteredList" :key="log._id">
+            <Logitem :log="log" :toggle="index % 2 === 0 ? true : false"/>
+          </tbody>
         </div>
       </div>
      </div>
@@ -36,29 +36,29 @@ export default {
   data() {
     return {
       search: '',
+      indy: 0,
       toggle: true,
     }
   },
   methods: {
-    getToggle() {
-      return this.toggle = !this.toggle
-    }
   },
   computed: {
     filteredList() {
-      console.log(this.search)
-      return this.logs.filter(log => {
-        return (log.name.toLowerCase().includes(this.search.toLowerCase()) ||
-                log.location.toLowerCase().includes(this.search.toLowerCase()) ||
-                log.timestamp.toLowerCase().includes(this.search.toLowerCase())
-        )
-      })
+        return this.logs.filter(log => {
+          return (log.name.toLowerCase().includes(this.search.toLowerCase()) ||
+              log.location.toLowerCase().includes(this.search.toLowerCase()) ||
+              log.timestamp.toLowerCase().includes(this.search.toLowerCase())
+          )
+        })
+
     }
   }
 }
 </script>
 
 <style scoped>
+
+
 .topborder{
   border-top: 5px solid #ffffff;
 }
