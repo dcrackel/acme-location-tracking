@@ -14,13 +14,39 @@ const router = new Router({
         {
             path: "/",
             name: "home",
-            component: Home
+            component: Home,
+            meta: {
+                title: 'Acme Tracker - Example App',
+                metaTags: [
+                    {
+                        name: 'description',
+                        content: 'Example of a application using Vue.js, Express/Node.js & Mongo.db'
+                    },
+                    {
+                        property: 'og:description',
+                        content: 'Example of a application using Vue.js, Express/Node.js & Mongo.db'
+                    }
+                ]
+            }
         },
         {
             path: "/report",
             name: "report",
             component: Report,
-            beforeEnter: authGuard
+            beforeEnter: authGuard,
+            meta: {
+                title: 'Acme Tracker Reports - Example App',
+                metaTags: [
+                    {
+                        name: 'description',
+                        content: 'Example of a application using Vue.js, Node.js & Mongo.db'
+                    },
+                    {
+                        property: 'og:description',
+                        content: 'Example of a application using Vue.js, Node.js & Mongo.db'
+                    }
+                ]
+            }
         },
         {
             path: "/profile",
